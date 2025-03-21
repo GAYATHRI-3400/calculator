@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .calculator {
+            width: 270px;
+            background: #333;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .display {
+            width: 96%;
+            height: 60px;
+            background: #444;
+            color: white;
+            text-align: right;
+            font-size: 2em;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+        button {
+            width: 100%;
+            height: 60px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .operator { background: orange; color: white; }
+        .number, .decimal { background: gray; color: white; }
+        .clear { background: red; color: white; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="clear" onclick="clearDisplay()">AC</button>
+            <button class="operator" onclick="appendOperator('+/-')">+/-</button>
+            <button class="operator" onclick="appendOperator('%')">%</button>
+            <button class="operator" onclick="appendOperator('/')">&divide;</button>
+            
+            <button class="number" onclick="appendNumber('7')">7</button>
+            <button class="number" onclick="appendNumber('8')">8</button>
+            <button class="number" onclick="appendNumber('9')">9</button>
+            <button class="operator" onclick="appendOperator('*')">&times;</button>
+            
+            <button class="number" onclick="appendNumber('4')">4</button>
+            <button class="number" onclick="appendNumber('5')">5</button>
+            <button class="number" onclick="appendNumber('6')">6</button>
+            <button class="operator" onclick="appendOperator('-')">&minus;</button>
+            
+            <button class="number" onclick="appendNumber('1')">1</button>
+            <button class="number" onclick="appendNumber('2')">2</button>
+            <button class="number" onclick="appendNumber('3')">3</button>
+            <button class="operator" onclick="appendOperator('+')">+</button>
+            
+            <button class="number" onclick="appendNumber('0')">0</button>
+            <button class="decimal" onclick="appendNumber('.')">,</button>
+            <button class="operator" onclick="calculateResult()">=</button>
+        </div>
+    </div>
+    <script>
+        let display = document.getElementById("display");
+        let expression = "";
+        
+        function appendNumber(num) {
+            if (display.innerText === "0") {
+                display.innerText = num;
+            } else {
+                display.innerText += num;
+            }
+            expression += num;
+        }
+        
+        function appendOperator(op) {
+            if (op === '+/-') {
+                display.innerText = -parseFloat(display.innerText);
+                expression = display.innerText;
+            } else {
+                display.innerText += " " + op + " ";
+                expression += op;
+            }
+        }
+        
+        function clearDisplay() {
+            display.innerText = "0";
+            expression = "";
+        }
+        
+        function calculateResult() {
+            try {
+                display.innerText = eval(expression);
+                expression = display.innerText;
+            } catch (e) {
+                display.innerText = "Error";
+                expression = "";
+            }
+        }
+    </script>
+</body>
+</html>
